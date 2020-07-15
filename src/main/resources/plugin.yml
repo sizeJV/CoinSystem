@@ -1,0 +1,20 @@
+name: Coins-System
+main: me.size.CoinSystem
+version: ${project.version}
+authors: [size]
+commands:
+  coins:
+    usage: /<command> | /<command> <player>
+    description: Sehe ein wieviele Coins du oder jemand anderes hat
+  addcoins:
+    usage: /<command> <player> <amount>
+    description: Fuege einen Spieler Coins hinzu
+  setcoins:
+    usage: /<command> <player> <amount>
+    description: Setze die Coins eines Spielers
+  removecoins:
+    usage: /<command> <player> <amount>
+    description: Nehme einen Spieler Coins weg
+  pay:
+    usage: /<command> <player> <amount>
+    description: Zahle einen Spieler Coins
