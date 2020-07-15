@@ -19,7 +19,7 @@ public class PlayerServerListener implements Listener {
 
     /**
      * @param event: Checks if Player is in the database
-     * if not he will get Initialized else receive his Coins
+     * if not he will get Initialized else receive his Coins.
      */
 
     @EventHandler
