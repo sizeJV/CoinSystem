@@ -1,7 +1,7 @@
 package me.size.listener;
 
 import me.size.events.PlayerPayCoinsEvent;
-import me.size.util.CoinsAPI;
+import me.size.util.API;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -15,10 +15,10 @@ public class PlayerPayCoinsListener implements Listener {
         UUID source = event.getSource().getUniqueId();
         UUID target = event.getTarget().getUniqueId();
 
-        int targetSum = CoinsAPI.getCoins(target) + event.getAmount();
-        int sourceSum = CoinsAPI.getCoins(source) + event.getAmount();
+        int targetSum = API.getCoins(target) + event.getAmount();
+        int sourceSum = API.getCoins(source) - event.getAmount();
 
-        CoinsAPI.setCoins(target, targetSum);
-        CoinsAPI.setCoins(source, sourceSum);
+        API.setCoins(target, targetSum);
+        API.setCoins(source, sourceSum);
     }
 }

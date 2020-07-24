@@ -1,7 +1,7 @@
 package me.size.listener;
 
 import me.size.events.PlayerCoinsChangeEvent;
-import me.size.util.CoinsAPI;
+import me.size.util.API;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -14,6 +14,6 @@ public class PlayerCoinsChangeListener implements Listener {
     public void onPlayerCoinsChange(PlayerCoinsChangeEvent event) {
         UUID player = event.getPlayer().getUniqueId();
 
-        CoinsAPI.setCoins(player, event.getAmount());
+        API.setCoins(player, event.getAmount());
     }
 }

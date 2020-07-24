@@ -1,7 +1,7 @@
 package me.size.listener;
 
 import me.size.CoinSystem;
-import me.size.util.CoinsAPI;
+import me.size.util.CoinsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,7 +34,7 @@ public class PlayerServerListener implements Listener {
 
                     if (!rs.next()) {
                         // INITIALIZES PLAYER
-                        CoinsAPI.initPlayer(player);
+                        CoinsHandler.initPlayer(player);
                     }
                 }
             }
@@ -42,7 +42,7 @@ public class PlayerServerListener implements Listener {
                 e.printStackTrace();
             }
         });
-        CoinsAPI.getDatabaseCoins(player);
+        CoinsHandler.getDatabaseCoins(player);
     }
 
 
@@ -53,6 +53,6 @@ public class PlayerServerListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         UUID player = event.getPlayer().getUniqueId();
-        CoinsAPI.dropCachedPlayer(player);
+        CoinsHandler.dropCachedPlayer(player);
     }
 }

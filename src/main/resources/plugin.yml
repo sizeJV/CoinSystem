@@ -5,16 +5,16 @@ authors: [size]
 commands:
   coins:
     usage: /<command> | /<command> <player>
-    description: Sehe ein wieviele Coins du oder jemand anderes hat
+    description: Get Coins of a Player (Online only!)
   addcoins:
     usage: /<command> <player> <amount>
-    description: Fuege einen Spieler Coins hinzu
+    description: Add Coins to a Player
   setcoins:
     usage: /<command> <player> <amount>
-    description: Setze die Coins eines Spielers
+    description: Set Coins of a Player
   removecoins:
     usage: /<command> <player> <amount>
-    description: Nehme einen Spieler Coins weg
+    description: Remove a amount of Coins of a Player
   pay:
     usage: /<command> <player> <amount>
-    description: Zahle einen Spieler Coins
+    description: Pay Coins to other Players

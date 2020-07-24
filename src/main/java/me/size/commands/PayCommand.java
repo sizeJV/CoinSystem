@@ -1,7 +1,7 @@
 package me.size.commands;
 
 import me.size.events.PlayerPayCoinsEvent;
-import me.size.util.CoinsAPI;
+import me.size.util.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,11 +25,17 @@ public class PayCommand implements CommandExecutor {
                 player.sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
                 return true;
             }
-            int sourceDiff = CoinsAPI.getCoins(player.getUniqueId()) - Integer.parseInt(strings[1]);
+            int sourceDiff = API.getCoins(player.getUniqueId()) - Integer.parseInt(strings[1]);
 
             if (sourceDiff < 0) {
                 player.sendMessage(
-                        "§7[§6Coins§7] §cYou don't have enough Coins to do that");
+                        "§7[§6Coins§7] §cYou don't have enough Coins to do that!");
+                return true;
+            }
+
+            if (target == player) {
+                player.sendMessage(
+                        "§7[§6Coins§7] §cYou can't pay Coins to yourself!");
                 return true;
             }
 
@@ -38,12 +44,11 @@ public class PayCommand implements CommandExecutor {
             player.sendMessage(
                     "§7[§6Coins§7] §aSuccessfully payed §e" + target.getName() + "§e " + strings[1]);
             target.sendMessage("§7[§6Coins§7] §aYou've received §e" + strings[1] + " §afrom §e" + player.getName());
-            return true;
         }
         else {
             player.sendMessage(
                     "§7[§6Coins§7] §cUsage: §e/pay <player> <amount>");
-            return true;
         }
+        return true;
     }
 }

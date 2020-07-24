@@ -1,7 +1,7 @@
 package me.size.commands;
 
 import me.size.events.PlayerCoinsChangeEvent;
-import me.size.util.CoinsAPI;
+import me.size.util.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,13 +14,25 @@ public class SetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            return false;
+
+            if (strings.length == 2) {
+                Player target = Bukkit.getPlayer(strings[0]);
+                if (target == null) {
+                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
+                    return true;
+                }
+                Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(target, Integer.parseInt(strings[1])));
+                Bukkit.getConsoleSender().sendMessage(
+                        "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + API.getCoins(target.getUniqueId()) + "§a Coins");
+            }
+            return true;
         }
 
         Player player = (Player) commandSender;
 
         if (strings.length == 2) {
             if (!player.hasPermission("coins.set")) {
+                player.sendMessage("§7[§6Coins§7] §cYou are lacking permission");
                 return true;
             }
             Player target = Bukkit.getPlayer(strings[0]);
@@ -30,13 +42,12 @@ public class SetCommand implements CommandExecutor {
             }
             Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(target, Integer.parseInt(strings[1])));
             player.sendMessage(
-                    "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + CoinsAPI.getCoins(target.getUniqueId()) + "§a Coins");
-            return true;
+                    "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + API.getCoins(target.getUniqueId()) + "§a Coins");
         }
         else {
             player.sendMessage(
                     "§7[§6Coins§7] §cUsage: §e/setcoins <player> <amount>");
-            return true;
         }
+        return true;
     }
 }

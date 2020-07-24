@@ -1,7 +1,7 @@
 package me.size.commands;
 
 import me.size.events.PlayerCoinsChangeEvent;
-import me.size.util.CoinsAPI;
+import me.size.util.API;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +14,18 @@ public class AddCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            return false;
+            Player target = Bukkit.getPlayer(strings[0]);
+            if (target == null) {
+                Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cThat Player isn't online.");
+                return true;
+            }
+            int diff = API.getCoins(target.getUniqueId()) + Integer.parseInt(strings[1]);
+
+            Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(target, diff));
+
+            Bukkit.getConsoleSender().sendMessage(
+                    "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + API.getCoins(target.getUniqueId()) + "§a Coins");
+            return true;
         }
 
         Player player = (Player) commandSender;
@@ -29,18 +40,17 @@ public class AddCommand implements CommandExecutor {
                 player.sendMessage("§7[§6Coins§7] §cThat Player isn't online.");
                 return true;
             }
-            int diff = CoinsAPI.getCoins(target.getUniqueId()) + Integer.parseInt(strings[1]);
+            int diff = API.getCoins(target.getUniqueId()) + Integer.parseInt(strings[1]);
 
-            Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(player, diff));
+            Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(target, diff));
 
             player.sendMessage(
-                    "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + CoinsAPI.getCoins(target.getUniqueId()) + "§a Coins");
-            return true;
+                    "§7[§6Coins§7] §e" + target.getName() + "§a now has:§e " + API.getCoins(target.getUniqueId()) + "§a Coins");
         }
         else {
             player.sendMessage(
                     "§7[§6Coins§7] §cUsage: §e/addcoins <player> <amount>");
-            return true;
         }
+        return true;
     }
 }
