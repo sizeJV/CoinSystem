@@ -15,10 +15,11 @@ public class CoinsCommand implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
             if (strings.length == 1) {
 
+
                 Player target = Bukkit.getPlayer(strings[0]);
                 if (target == null) {
-                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §aThe Player: §e" + strings[0] + " §a has:§e " + API.getCoinsOffline(strings[0])
-                            + "§a Coins");
+                   // Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §aThe Player: §e" + strings[0] + " §a has:§e " + API.getCoinsOffline(strings[0])
+                     //       + "§a Coins");
                     return true;
                 }
 

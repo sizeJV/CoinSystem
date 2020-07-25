@@ -3,10 +3,12 @@ package me.size.listener;
 import me.size.CoinSystem;
 import me.size.util.CoinsHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerEvent;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,14 +47,12 @@ public class PlayerServerListener implements Listener {
         CoinsHandler.getDatabaseCoins(player);
     }
 
-
     /**
      * @param event: Closes potential data-leaks
      */
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        UUID player = event.getPlayer().getUniqueId();
-        CoinsHandler.dropCachedPlayer(player);
+    public void onQuit(Server event) {
+        event.
     }
 }
