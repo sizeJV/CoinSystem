@@ -1,5 +1,12 @@
 package me.size.util;
 
+import me.size.CoinSystem;
+import org.bukkit.Bukkit;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 
@@ -38,4 +45,32 @@ public class API {
         }
         return CoinsHandler.getCachedValues().get(uuid);
     }
+
+    private static int playerCoins;
+
+    public static int getCoinsOffline(UUID uuid) {
+        Bukkit.getScheduler().runTaskAsynchronously(CoinSystem.instance, () -> {
+            try (Connection connection = CoinSystem.instance.getDatabase().getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(
+                        "SELECT `coins_amount` FROM `coins_data` WHERE `uuid`=(?);")) {
+                    statement.setString(1, String.valueOf(uuid));
+
+                    statement.execute();
+
+                    try (ResultSet rs = statement.getResultSet()) {
+                        if (!rs.next()) {
+                            return;
+                        }
+
+                        playerCoins = rs.getInt("coins_amount");
+                    }
+                }
+            }
+            catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        return playerCoins;
+    }
+
 }

@@ -17,8 +17,8 @@ public class CoinsCommand implements CommandExecutor {
 
                 Player target = Bukkit.getPlayer(strings[0]);
                 if (target == null) {
-                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §aThis Player isn't Online.");
-                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cCheck Database for offline Coins.");
+                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §aThe Player: §e" + strings[0] + " §a has:§e " + API.getCoinsOffline(strings[0])
+                            + "§a Coins");
                     return true;
                 }
 
