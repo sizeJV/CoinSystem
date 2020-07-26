@@ -8,11 +8,10 @@ import me.size.commands.SetCommand;
 import me.size.database.Database;
 import me.size.listener.PlayerCoinsChangeListener;
 import me.size.listener.PlayerPayCoinsListener;
-import me.size.util.CachingDeload;
+import me.size.listener.JoinQuitListener;
 import me.size.util.CachingLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -42,7 +41,8 @@ public class CoinSystem extends JavaPlugin {
 
         Arrays.asList(
                 new PlayerCoinsChangeListener(),
-                new PlayerPayCoinsListener()
+                new PlayerPayCoinsListener(),
+                new JoinQuitListener()
         ).forEach(listener -> Bukkit.getPluginManager().registerEvents(listener, this));
 
         Objects.requireNonNull(this.getCommand("addcoins")).setExecutor(new AddCommand());
@@ -52,13 +52,11 @@ public class CoinSystem extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("removecoins")).setExecutor(new RemoveCommand());
 
         Bukkit.getConsoleSender().sendMessage("[Coins-System] successfully enabled plugin");
-
     }
 
 
     @Override
     public void onDisable() {
-        new CachingDeload(this);
         Bukkit.getConsoleSender().sendMessage("[Coins-System] successfully disabled plugin");
     }
 

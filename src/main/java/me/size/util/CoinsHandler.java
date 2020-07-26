@@ -95,7 +95,6 @@ public class CoinsHandler {
      */
     public static void dropCachedPlayer(UUID uuid) {
         setDatabaseCoins(uuid, cachedValues.get(uuid));
-        cachedValues.remove(uuid);
     }
 
 
