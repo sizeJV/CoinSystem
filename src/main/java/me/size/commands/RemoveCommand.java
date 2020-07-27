@@ -16,9 +16,9 @@ public class RemoveCommand implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
 
             if (strings.length == 2) {
-                Player target = Bukkit.getPlayer(strings[0]);
+                Player target = API.getPlayer(strings[0]);
                 if (target == null) {
-                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
+                    Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cPlayer not found!");
                     return true;
                 }
                 int diff = API.getCoins(target.getUniqueId()) - Integer.parseInt(strings[1]);
@@ -37,9 +37,9 @@ public class RemoveCommand implements CommandExecutor {
             if (!player.hasPermission("coins.remove")) {
                 return true;
             }
-            Player target = Bukkit.getPlayer(strings[0]);
+            Player target = API.getPlayer(strings[0]);
             if (target == null) {
-                player.sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
+                player.sendMessage("§7[§6Coins§7] §cPlayer not found!");
                 return true;
             }
             int diff = API.getCoins(target.getUniqueId()) - Integer.parseInt(strings[1]);

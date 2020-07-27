@@ -14,9 +14,9 @@ public class AddCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            Player target = Bukkit.getPlayer(strings[0]);
+            Player target = API.getPlayer(strings[0]);
             if (target == null) {
-                Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cThat Player isn't online.");
+                Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §cPlayer not found!.");
                 return true;
             }
             int diff = API.getCoins(target.getUniqueId()) + Integer.parseInt(strings[1]);
@@ -35,11 +35,8 @@ public class AddCommand implements CommandExecutor {
                 player.sendMessage("§7[§6Coins§7] §cYou are missing permission to perform this Action.");
                 return true;
             }
-            Player target = Bukkit.getPlayer(strings[0]);
-            if (target == null) {
-                player.sendMessage("§7[§6Coins§7] §cThat Player isn't online.");
-                return true;
-            }
+            Player target = API.getPlayer(strings[0]);
+
             int diff = API.getCoins(target.getUniqueId()) + Integer.parseInt(strings[1]);
 
             Bukkit.getPluginManager().callEvent(new PlayerCoinsChangeEvent(target, diff));

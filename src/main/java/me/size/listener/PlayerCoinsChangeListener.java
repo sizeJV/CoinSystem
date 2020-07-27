@@ -13,7 +13,6 @@ public class PlayerCoinsChangeListener implements Listener {
     @EventHandler
     public void onPlayerCoinsChange(PlayerCoinsChangeEvent event) {
         UUID player = event.getPlayer().getUniqueId();
-
         API.setCoins(player, event.getAmount());
     }
 }

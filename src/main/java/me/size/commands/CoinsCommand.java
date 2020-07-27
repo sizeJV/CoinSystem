@@ -15,16 +15,15 @@ public class CoinsCommand implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
             if (strings.length == 1) {
 
-
-                Player target = Bukkit.getPlayer(strings[0]);
+                Player target = API.getPlayer(strings[0]);
                 if (target == null) {
-                   // Bukkit.getConsoleSender().sendMessage("§7[§6Coins§7] §aThe Player: §e" + strings[0] + " §a has:§e " + API.getCoinsOffline(strings[0])
-                     //       + "§a Coins");
+                    Bukkit.getConsoleSender().sendMessage(
+                            "§7[§6Coins§7] §cPlayer not found!");
                     return true;
                 }
 
                 Bukkit.getConsoleSender().sendMessage(
-                        "§7[§6Coins§7] §aThe Player: §e" + target.getName() + " §a has:§e " + API.getCoins(target.getUniqueId())
+                        "§7[§6Coins§7] §aThe Player: §e" + target.getName() + "§a has:§e " + API.getCoins(target.getUniqueId())
                                 + "§a Coins");
             }
             return true;
@@ -41,14 +40,15 @@ public class CoinsCommand implements CommandExecutor {
                 return true;
             }
 
-            Player target = Bukkit.getPlayer(strings[0]);
+            Player target = API.getPlayer(strings[0]);
             if (target == null) {
-                player.sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
+                player.sendMessage(
+                        "§7[§6Coins§7] §cPlayer not found!");
                 return true;
             }
 
             player.sendMessage(
-                    "§7[§6Coins§7] §aThe Player: §e" + target.getName() + " §a has:§e " + API.getCoins(target.getUniqueId())
+                    "§7[§6Coins§7] §aThe Player: §e" + target.getName() + "§a has:§e " + API.getCoins(target.getUniqueId())
                             + "§a Coins");
         }
         return true;

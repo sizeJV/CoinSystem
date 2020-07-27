@@ -5,15 +5,13 @@ import me.size.commands.CoinsCommand;
 import me.size.commands.PayCommand;
 import me.size.commands.RemoveCommand;
 import me.size.commands.SetCommand;
-import me.size.database.Database;
+import me.size.config.ConfigManager;
+import me.size.listener.JoinQuitListener;
 import me.size.listener.PlayerCoinsChangeListener;
 import me.size.listener.PlayerPayCoinsListener;
-import me.size.listener.JoinQuitListener;
-import me.size.util.CachingLoad;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -22,22 +20,13 @@ public class CoinSystem extends JavaPlugin {
 
     public static CoinSystem instance;
 
-    private Database database;
+    private ConfigManager configManager;
+
 
     @Override
     public void onEnable() {
         instance = this;
-
-
-        database = new Database(instance);
-        try {
-            database.connect();
-        }
-        catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
-
-        new CachingLoad();
+        configManager = new ConfigManager("data", this);
 
         Arrays.asList(
                 new PlayerCoinsChangeListener(),
@@ -61,7 +50,7 @@ public class CoinSystem extends JavaPlugin {
     }
 
 
-    public Database getDatabase() {
-        return database;
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 }

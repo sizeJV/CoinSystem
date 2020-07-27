@@ -1,12 +1,12 @@
 package me.size.util;
 
 import me.size.CoinSystem;
+import me.size.config.Data;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -28,7 +28,8 @@ public class API {
      */
 
     public static void setCoins(UUID uuid, Integer amount) {
-        CoinsHandler.getCachedValues().put(uuid, amount);
+        Data data = new Data(uuid, CoinSystem.instance.getConfigManager());
+        data.setCoins(amount);
     }
 
 
@@ -38,39 +39,43 @@ public class API {
      * @param uuid: Player to receive the Coins from
      * </API>
      */
-
     public static int getCoins(UUID uuid) {
-        if (!CoinsHandler.getCachedValues().containsKey(uuid)) {
-            return 0;
+        Data data = new Data(uuid, CoinSystem.instance.getConfigManager());
+        return data.getCoins();
+    }
+
+
+    /**
+     * <API>
+     *
+     * @param name: searches for Player Online if not online searches offline
+     * </API>
+     */
+    public static Player getPlayer(String name) {
+        Player player = null;
+
+        Player[] players = Bukkit.getOnlinePlayers().toArray(new Player[0]);
+
+
+        for (int i = players.length - 1; i >= 0; i--) {
+            if (Objects.equals(players[i].getName(), name)) {
+                player = players[i].getPlayer();
+                break;
+            }
         }
-        return CoinsHandler.getCachedValues().get(uuid);
-    }
 
-    private static int playerCoins;
+        if (player == null) {
+            return player;
+        }
 
-    public static int getCoinsOffline(UUID uuid) {
-        Bukkit.getScheduler().runTaskAsynchronously(CoinSystem.instance, () -> {
-            try (Connection connection = CoinSystem.instance.getDatabase().getConnection()) {
-                try (PreparedStatement statement = connection.prepareStatement(
-                        "SELECT `coins_amount` FROM `coins_data` WHERE `uuid`=(?);")) {
-                    statement.setString(1, String.valueOf(uuid));
+        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
 
-                    statement.execute();
-
-                    try (ResultSet rs = statement.getResultSet()) {
-                        if (!rs.next()) {
-                            return;
-                        }
-
-                        playerCoins = rs.getInt("coins_amount");
-                    }
-                }
+        for (int i = offlinePlayers.length - 1; i >= 0; i--) {
+            if (Objects.equals(offlinePlayers[i].getName(), name)) {
+                player = offlinePlayers[i].getPlayer();
+                break;
             }
-            catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        });
-        return playerCoins;
+        }
+        return player;
     }
-
 }

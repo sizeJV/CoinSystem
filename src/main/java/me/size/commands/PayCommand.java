@@ -20,7 +20,7 @@ public class PayCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         if (strings.length == 2) {
-            Player target = Bukkit.getPlayer(strings[0]);
+            Player target = API.getPlayer(strings[0]);
             if (target == null) {
                 player.sendMessage("§7[§6Coins§7] §cThis Player isn't online.");
                 return true;
